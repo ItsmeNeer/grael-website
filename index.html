@@ -496,6 +496,9 @@
       font-weight: 300;
     }
 
+    a.shop-item-img { display: block; }
+    a.shop-item-info { text-decoration: none; color: inherit; }
+
     .shop-item-info {
       padding: 1rem 0.25rem;
       display: flex;
@@ -544,13 +547,13 @@
       border-radius: 50%;
     }
 
-    .spot-actions { display: flex; gap: 0.7rem; }
+    .shop-item-actions { display: flex; gap: 0.7rem; }
 
-    .spot-actions .btn-primary {
+    .shop-item-actions .btn-primary {
       flex: 1; padding: 1rem 1.5rem;
     }
 
-    .spot-actions .save-toggle {
+    .save-toggle {
       width: 50px;
       background: none;
       border: 1px solid var(--bone-25);
@@ -559,8 +562,8 @@
       transition: all 0.3s var(--ease);
       display: flex; align-items: center; justify-content: center;
     }
-    .spot-actions .save-toggle:hover { border-color: var(--bone); }
-    .spot-actions .save-toggle.saved svg { fill: var(--bone); }
+    .save-toggle:hover { border-color: var(--bone); }
+    .save-toggle.saved svg { fill: var(--bone); }
 
     /* ═══ MANIFESTO ═══════════════════════════════════════════════ */
     #manifesto {
@@ -1510,17 +1513,17 @@
     <div class="shop-grid reveal d-1">
       <!-- Hoodie -->
       <article class="shop-item">
-        <div class="shop-item-img">
+        <a href="product-hoodie.html" class="shop-item-img">
           <img class="img-front" src="assets/hoodie-front.webp" alt="Signature Hoodie" onerror="this.style.display='none'" />
           <img class="img-back" src="assets/hoodie-back.webp" alt="Signature Hoodie" onerror="this.style.display='none'" />
           <span class="spot-tag">New</span>
-        </div>
-        <div class="shop-item-info">
+        </a>
+        <a href="product-hoodie.html" class="shop-item-info">
           <h3 class="shop-item-name">The Signature Hoodie</h3>
           <p class="shop-item-price">$70.00</p>
-        </div>
+        </a>
         <div class="shop-item-actions">
-          <button class="btn-primary" id="addCartBtn" data-magnetic data-cursor-hover
+          <button class="btn-primary add-cart-btn" data-magnetic data-cursor-hover
                   data-name="Signature Hoodie" data-price="70.00" data-img="assets/hoodie-front.webp">
             Add to Cart
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
@@ -1528,7 +1531,7 @@
               <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
             </svg>
           </button>
-          <button class="save-toggle" id="saveBtn" data-cursor-hover
+          <button class="save-toggle save-btn" data-cursor-hover
                   data-name="Signature Hoodie" data-price="70.00" data-img="assets/hoodie-front.webp"
                   aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -1541,16 +1544,16 @@
 
       <!-- Sweats -->
       <article class="shop-item">
-        <div class="shop-item-img">
+        <a href="product-sweats.html" class="shop-item-img">
           <div class="shop-placeholder">
             <span>Coming Soon</span>
           </div>
           <span class="spot-tag">Soon</span>
-        </div>
-        <div class="shop-item-info">
+        </a>
+        <a href="product-sweats.html" class="shop-item-info">
           <h3 class="shop-item-name">The Signature Sweats</h3>
           <p class="shop-item-price">$65.00</p>
-        </div>
+        </a>
         <div class="shop-item-actions">
           <button class="btn-primary btn-disabled" disabled>
             Notify Me
@@ -2010,33 +2013,36 @@
       refreshBadges(); renderCart();
     }
 
-    /* ── Add to cart button ───────────────────────────────────── */
-    document.getElementById('addCartBtn').addEventListener('click', e => {
-      const btn = e.currentTarget;
-      addToCart(btn.dataset.name, btn.dataset.price, btn.dataset.img);
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✓ &nbsp; Added';
-      btn.style.background = 'transparent';
-      btn.style.color = 'var(--bone)';
-      setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; }, 1600);
+    /* ── Add to cart buttons ────────────────────────────────────── */
+    document.querySelectorAll('.add-cart-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const b = e.currentTarget;
+        addToCart(b.dataset.name, b.dataset.price, b.dataset.img);
+        const orig = b.innerHTML;
+        b.innerHTML = '✓ &nbsp; Added';
+        b.style.background = 'transparent';
+        b.style.color = 'var(--bone)';
+        setTimeout(() => { b.innerHTML = orig; b.style.background = ''; b.style.color = ''; }, 1600);
+      });
     });
 
-    /* ── Save toggle ──────────────────────────────────────────── */
-    const saveBtn = document.getElementById('saveBtn');
-    if (saved.find(s => s.name === saveBtn.dataset.name)) saveBtn.classList.add('saved');
+    /* ── Save toggles ─────────────────────────────────────────── */
+    document.querySelectorAll('.save-btn').forEach(saveBtn => {
+      if (saved.find(s => s.name === saveBtn.dataset.name)) saveBtn.classList.add('saved');
 
-    saveBtn.addEventListener('click', () => {
-      const name = saveBtn.dataset.name;
-      const ex = saved.find(s => s.name === name);
-      if (ex) {
-        saved = saved.filter(s => s.name !== name);
-        saveBtn.classList.remove('saved');
-      } else {
-        saved.push({ name, price: saveBtn.dataset.price, img: saveBtn.dataset.img });
-        saveBtn.classList.add('saved');
-      }
-      lsSet(K.saved, saved);
-      renderSaved();
+      saveBtn.addEventListener('click', () => {
+        const name = saveBtn.dataset.name;
+        const ex = saved.find(s => s.name === name);
+        if (ex) {
+          saved = saved.filter(s => s.name !== name);
+          saveBtn.classList.remove('saved');
+        } else {
+          saved.push({ name, price: saveBtn.dataset.price, img: saveBtn.dataset.img });
+          saveBtn.classList.add('saved');
+        }
+        lsSet(K.saved, saved);
+        renderSaved();
+      });
     });
 
     /* ── Drawer ──────────────────────────────────────────────── */
