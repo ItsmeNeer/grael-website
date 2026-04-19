@@ -440,24 +440,27 @@
       font-weight: 300;
     }
 
-    /* Hero product card */
-    .spot-card {
+    /* Shop grid */
+    .shop-grid {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 0;
-      border: 1px solid var(--bone-12);
-      background: rgba(20,19,17,0.4);
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(1.5rem, 3vw, 2.5rem);
     }
 
-    .spot-img {
+    .shop-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .shop-item-img {
       position: relative;
-      aspect-ratio: 4/5;
+      aspect-ratio: 3/4;
       overflow: hidden;
       background: linear-gradient(160deg, #1c1b16 0%, #0a0a09 100%);
-      border-right: 1px solid var(--bone-12);
+      border: 1px solid var(--bone-12);
     }
 
-    .spot-img img {
+    .shop-item-img img {
       position: absolute;
       inset: 0;
       width: 100%; height: 100%;
@@ -465,10 +468,19 @@
       transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
     }
 
-    .spot-img .img-back { opacity: 0; transform: scale(1.04); }
-    .spot-card:hover .img-front { opacity: 0; transform: scale(1.04); }
-    .spot-card:hover .img-back { opacity: 1; transform: scale(1); }
+    .shop-item-img .img-back { opacity: 0; transform: scale(1.04); }
+    .shop-item:hover .img-front { opacity: 0; transform: scale(1.04); }
+    .shop-item:hover .img-back { opacity: 1; transform: scale(1); }
 
+    .shop-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.3;
+      font-weight: 300;
+    }
 
     .spot-tag {
       position: absolute;
@@ -484,72 +496,36 @@
       font-weight: 300;
     }
 
-    .spot-info {
-      padding: clamp(2rem, 4vw, 3.5rem);
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      justify-content: center;
-    }
-
-    .spot-prod-tag {
-      font-size: 0.5rem;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      opacity: 0.4;
-      font-weight: 300;
-    }
-
-    .spot-prod-name {
-      font-size: clamp(1.3rem, 3vw, 1.9rem);
-      font-weight: 200;
-      letter-spacing: 0.06em;
-      line-height: 1.1;
-    }
-
-    .spot-prod-desc {
-      font-size: 0.78rem;
-      line-height: 1.85;
-      opacity: 0.55;
-      font-weight: 300;
-    }
-
-    .spot-detail {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.8rem;
-      padding: 1rem 0;
-      border-top: 1px solid var(--bone-12);
-      border-bottom: 1px solid var(--bone-12);
-      margin: 0.5rem 0;
-    }
-
-    .spot-detail dt {
-      font-size: 0.5rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      opacity: 0.4;
-      font-weight: 300;
-    }
-
-    .spot-detail dd {
-      font-size: 0.7rem;
-      letter-spacing: 0.04em;
-      font-weight: 300;
-      opacity: 0.85;
-    }
-
-    .spot-price-row {
+    .shop-item-info {
+      padding: 1rem 0.25rem;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      gap: 1rem;
     }
 
-    .spot-price {
-      font-size: 1.3rem;
+    .shop-item-name {
+      font-size: clamp(0.8rem, 1.6vw, 1rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+
+    .shop-item-price {
+      font-size: clamp(0.8rem, 1.6vw, 1rem);
       font-weight: 200;
       letter-spacing: 0.04em;
+      opacity: 0.7;
+    }
+
+    .shop-item-actions {
+      display: flex;
+      gap: 0.6rem;
+      padding: 0 0.25rem;
+    }
+
+    .btn-disabled {
+      opacity: 0.35 !important;
+      cursor: default !important;
+      pointer-events: none;
     }
 
     .spot-stock {
@@ -1383,8 +1359,7 @@
     @media (max-width: 900px) {
       .nav-link { font-size: 0.55rem; }
       .feat-wrap { grid-template-columns: 1fr; }
-      .spot-card { grid-template-columns: 1fr; }
-      .spot-img { border-right: none; border-bottom: 1px solid var(--bone-12); }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
       .manifesto-grid { grid-template-columns: 1fr; }
       .atelier-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1502,69 +1477,49 @@
           Built for those <em>who move<br/>quietly</em> — through<br/>everything.
         </h2>
         <p class="feat-body reveal d-2">
-          Season One is a study in restraint. Heavy fabrics,
-          considered cuts, the fewest details possible. Each
-          piece is constructed to outlast the moment it was made for.
+          Season One is a study in restraint. Considered cuts,
+          the fewest details possible. Each piece is constructed
+          to outlast the moment it was made for.
         </p>
 
         <div class="feat-stats reveal d-3">
           <div>
-            <p class="feat-stat-num">450</p>
-            <p class="feat-stat-lbl">GSM Cotton</p>
+            <p class="feat-stat-num">02</p>
+            <p class="feat-stat-lbl">Pieces</p>
           </div>
           <div>
             <p class="feat-stat-num">01</p>
-            <p class="feat-stat-lbl">Hero Piece</p>
+            <p class="feat-stat-lbl">Season</p>
           </div>
           <div>
-            <p class="feat-stat-num">24</p>
-            <p class="feat-stat-lbl">Hours Construction</p>
+            <p class="feat-stat-num">∞</p>
+            <p class="feat-stat-lbl">Wears</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ PRODUCT SPOTLIGHT ═════════════════════════════════════ -->
+  <!-- ═══ SHOP ══════════════════════════════════════════════════ -->
   <section id="spotlight">
     <div class="spot-head">
-      <h2 class="spot-title reveal">The Hero Piece</h2>
-      <p class="spot-meta reveal d-1">Season One / 01 of 01</p>
+      <h2 class="spot-title reveal">Shop</h2>
+      <p class="spot-meta reveal d-1">Season One</p>
     </div>
 
-    <article class="spot-card reveal d-1">
-      <div class="spot-img">
-        <img class="img-front" src="assets/hoodie-front.webp" alt="Signature Hoodie — Front" onerror="this.style.display='none'" />
-        <img class="img-back" src="assets/hoodie-back.webp" alt="Signature Hoodie — Back" onerror="this.style.display='none'" />
-        <span class="spot-tag">New</span>
-      </div>
-
-      <div class="spot-info">
-        <p class="spot-prod-tag">Drop 01 · Apparel</p>
-        <h3 class="spot-prod-name">The Signature Hoodie</h3>
-        <p class="spot-prod-desc">
-          Heavyweight cotton-poly blend, brushed interior, structured
-          shoulder. The defining piece of Season One — built to
-          last beyond the season it was made for.
-        </p>
-
-        <dl class="spot-detail">
-          <dt>Material</dt>
-          <dd>450gsm Cotton-Poly</dd>
-          <dt>Cut</dt>
-          <dd>Slightly Relaxed</dd>
-          <dt>Colour</dt>
-          <dd>Off-Black</dd>
-          <dt>Origin</dt>
-          <dd>Made in Portugal</dd>
-        </dl>
-
-        <div class="spot-price-row">
-          <p class="spot-price">$70.00</p>
-          <span class="spot-stock">In Stock</span>
+    <div class="shop-grid reveal d-1">
+      <!-- Hoodie -->
+      <article class="shop-item">
+        <div class="shop-item-img">
+          <img class="img-front" src="assets/hoodie-front.webp" alt="Signature Hoodie" onerror="this.style.display='none'" />
+          <img class="img-back" src="assets/hoodie-back.webp" alt="Signature Hoodie" onerror="this.style.display='none'" />
+          <span class="spot-tag">New</span>
         </div>
-
-        <div class="spot-actions">
+        <div class="shop-item-info">
+          <h3 class="shop-item-name">The Signature Hoodie</h3>
+          <p class="shop-item-price">$70.00</p>
+        </div>
+        <div class="shop-item-actions">
           <button class="btn-primary" id="addCartBtn" data-magnetic data-cursor-hover
                   data-name="Signature Hoodie" data-price="70.00" data-img="assets/hoodie-front.webp">
             Add to Cart
@@ -1582,8 +1537,31 @@
             </svg>
           </button>
         </div>
-      </div>
-    </article>
+      </article>
+
+      <!-- Sweats -->
+      <article class="shop-item">
+        <div class="shop-item-img">
+          <div class="shop-placeholder">
+            <span>Coming Soon</span>
+          </div>
+          <span class="spot-tag">Soon</span>
+        </div>
+        <div class="shop-item-info">
+          <h3 class="shop-item-name">The Signature Sweats</h3>
+          <p class="shop-item-price">$65.00</p>
+        </div>
+        <div class="shop-item-actions">
+          <button class="btn-primary btn-disabled" disabled>
+            Notify Me
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>
+            </svg>
+          </button>
+        </div>
+      </article>
+    </div>
   </section>
 
   <!-- ═══ MANIFESTO ═════════════════════════════════════════════ -->
@@ -1711,8 +1689,8 @@
       <div class="faq-item">
         <button class="faq-q" data-cursor-hover>How do I find my size?<span class="faq-icon"></span></button>
         <div class="faq-a"><p class="faq-a-inner">
-          The Signature Hoodie fits true to size with a slightly relaxed silhouette.
-          For a more oversized fit, size up. Detailed measurements live on the product page.
+          Our pieces fit true to size with a slightly relaxed silhouette.
+          For a more oversized fit, size up. Detailed measurements live on each product page.
         </p></div>
       </div>
 
@@ -1725,11 +1703,10 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" data-cursor-hover>What are the hoodies made from?<span class="faq-icon"></span></button>
+        <button class="faq-q" data-cursor-hover>What are the pieces made from?<span class="faq-icon"></span></button>
         <div class="faq-a"><p class="faq-a-inner">
-          The Signature Hoodie is constructed from a heavyweight 450gsm cotton-polyester
-          blend — brushed inside for warmth, structured outside for shape retention.
-          Made in Portugal. No shortcuts in material selection.
+          Every Grael piece uses heavyweight premium fabrics — soft on the inside,
+          structured on the outside. No shortcuts in material selection.
         </p></div>
       </div>
     </div>
@@ -1753,8 +1730,8 @@
         <p class="footer-col-title">Shop</p>
         <ul>
           <li><a href="#spotlight" data-cursor-hover>The Signature Hoodie</a></li>
+          <li><a href="#spotlight" data-cursor-hover>The Signature Sweats</a></li>
           <li><a href="#featured" data-cursor-hover>Lookbook</a></li>
-          <li><a href="#spotlight" data-cursor-hover>Season One</a></li>
         </ul>
       </div>
 
@@ -1863,7 +1840,7 @@
             <path d="M16 10a4 4 0 01-8 0"/>
           </svg>
           <p class="empty-title">Your cart is empty</p>
-          <p class="empty-text">Add the Signature Hoodie to get started.</p>
+          <p class="empty-text">Browse Season One to get started.</p>
         </div>
         <div id="cartList"></div>
       </div>
