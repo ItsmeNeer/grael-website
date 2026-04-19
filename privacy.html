@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — GRAEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/ga-monogram.svg" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0c0c0b;
+      --black2:  #111110;
+      --cream:   #f0ede8;
+      --cream60: rgba(240,237,232,0.6);
+      --cream30: rgba(240,237,232,0.3);
+      --cream12: rgba(240,237,232,0.12);
+      --cream06: rgba(240,237,232,0.06);
+      --gap:     clamp(1.5rem, 5vw, 5rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #0c0c0b;
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Noise grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* Canvas bg */
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(12,12,11,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--cream12);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--gap);
+      height: 58px;
+      position: relative;
+    }
+
+    .nav-left a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.5;
+      transition: opacity 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .nav-left a:hover { opacity: 1; }
+
+    .nav-logo { display: flex; justify-content: center; }
+    .nav-logo a { display: flex; align-items: center; text-decoration: none; }
+    .monogram { width: 30px; height: 30px; }
+    .monogram svg { width: 100%; height: 100%; }
+
+    /* Page wrapper */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: clamp(4rem, 10vw, 8rem) var(--gap) clamp(5rem, 12vw, 10rem);
+    }
+
+    /* Page header */
+    .page-header {
+      margin-bottom: clamp(3rem, 7vw, 6rem);
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--cream12);
+    }
+
+    .page-tag {
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.38;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .page-tag::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .page-date {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.3;
+      font-weight: 300;
+    }
+
+    /* Ghost watermark behind title */
+    .page-header { position: relative; overflow: hidden; }
+    .ghost-text {
+      position: absolute;
+      right: -1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: clamp(4rem, 14vw, 9rem);
+      font-weight: 200;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(240,237,232,0.04);
+      pointer-events: none;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    /* Content sections */
+    .policy-section {
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--cream06);
+    }
+    .policy-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .policy-section-num {
+      font-size: 0.52rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.25;
+      font-weight: 300;
+      margin-bottom: 0.75rem;
+    }
+
+    .policy-section-title {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .policy-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--cream12);
+    }
+
+    .policy-text {
+      font-size: 0.8rem;
+      line-height: 1.9;
+      opacity: 0.6;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .policy-text + .policy-text { margin-top: 1rem; }
+
+    .policy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+
+    .policy-list li {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      opacity: 0.6;
+      font-weight: 300;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .policy-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      opacity: 0.4;
+      font-size: 0.7rem;
+    }
+
+    .policy-highlight {
+      border: 1px solid var(--cream12);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      background: var(--cream06);
+    }
+
+    .policy-highlight p {
+      font-size: 0.75rem;
+      line-height: 1.75;
+      opacity: 0.55;
+      font-weight: 300;
+    }
+
+    .policy-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+      opacity: 0.65;
+      transition: opacity 0.2s;
+      font-weight: 300;
+    }
+    .policy-contact:hover { opacity: 1; }
+
+    /* Footer */
+    .page-footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--cream12);
+      padding: 2.5rem var(--gap);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(12,12,11,0.85);
+    }
+
+    .footer-left { display: flex; flex-direction: column; gap: 0.35rem; }
+    .footer-brand { font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 200; }
+    .footer-sub { font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.25; font-weight: 300; }
+
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: flex-end; }
+    .footer-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.32;
+      transition: opacity 0.2s;
+      font-weight: 300;
+    }
+    .footer-links a:hover { opacity: 0.8; }
+
+    @media (max-width: 600px) {
+      .ghost-text { display: none; }
+      .page-footer { flex-direction: column; align-items: flex-start; }
+      .footer-links { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Back
+      </a>
+    </div>
+
+    <div class="nav-logo">
+      <a href="index.html" aria-label="Grael">
+        <div class="monogram">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="1" y="33" font-family="Jost,sans-serif" font-size="26"
+                  font-weight="200" letter-spacing="-6" fill="#f0ede8" opacity="0.88">GA</text>
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <div></div>
+  </nav>
+
+  <!-- Content -->
+  <div class="page-wrap">
+
+    <header class="page-header">
+      <p class="page-tag">Legal</p>
+      <h1 class="page-title">Privacy Policy</h1>
+      <p class="page-date">Effective: January 1, 2026 &nbsp;·&nbsp; Last updated: January 1, 2026</p>
+      <span class="ghost-text" aria-hidden="true">Privacy</span>
+    </header>
+
+    <div class="policy-section">
+      <p class="policy-section-num">00</p>
+      <h2 class="policy-section-title">Overview</h2>
+      <p class="policy-text">
+        Grael ("we", "our", or "us") is committed to protecting your personal information and your
+        right to privacy. This Privacy Policy explains what information we collect, how we use it,
+        and what rights you have in relation to it.
+      </p>
+      <p class="policy-text">
+        By using our website and purchasing our products, you agree to the collection and use of
+        information as described in this policy. We will never sell your personal data to third parties.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">01</p>
+      <h2 class="policy-section-title">Information We Collect</h2>
+      <p class="policy-text">When you interact with Grael, we may collect the following types of information:</p>
+      <ul class="policy-list">
+        <li><strong style="font-weight:300;opacity:0.9;">Account information</strong> — name and email address provided when you create an account</li>
+        <li><strong style="font-weight:300;opacity:0.9;">Order information</strong> — items purchased, billing and shipping address, payment details (processed securely via our payment partner)</li>
+        <li><strong style="font-weight:300;opacity:0.9;">Contact information</strong> — messages sent through our support form</li>
+        <li><strong style="font-weight:300;opacity:0.9;">Usage data</strong> — pages visited, browser type, device type, and IP address collected automatically via cookies</li>
+        <li><strong style="font-weight:300;opacity:0.9;">Saved preferences</strong> — items saved to your wishlist or cart, stored locally in your browser</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">02</p>
+      <h2 class="policy-section-title">How We Use Your Information</h2>
+      <p class="policy-text">We use the information we collect to:</p>
+      <ul class="policy-list">
+        <li>Process and fulfil your orders, including sending order confirmations and shipping updates</li>
+        <li>Maintain and secure your account</li>
+        <li>Respond to customer service requests and support enquiries</li>
+        <li>Send transactional emails related to your purchases</li>
+        <li>Improve our website, products, and overall customer experience</li>
+        <li>Comply with legal obligations</li>
+      </ul>
+      <div class="policy-highlight">
+        <p>We do not send marketing emails unless you have explicitly opted in. You may unsubscribe at any time using the link in any email we send.</p>
+      </div>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">03</p>
+      <h2 class="policy-section-title">Cookies</h2>
+      <p class="policy-text">
+        Our website uses cookies — small text files stored on your device — to improve your
+        browsing experience. Cookies help us remember your preferences and understand how
+        you use the site.
+      </p>
+      <ul class="policy-list">
+        <li><strong style="font-weight:300;opacity:0.9;">Essential cookies</strong> — required for the site to function, including your session and cart</li>
+        <li><strong style="font-weight:300;opacity:0.9;">Analytics cookies</strong> — help us understand site traffic and improve our content (e.g., page views, time on site)</li>
+      </ul>
+      <p class="policy-text" style="margin-top:1rem;">
+        You can disable cookies in your browser settings at any time, though this may affect
+        certain features of the site.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">04</p>
+      <h2 class="policy-section-title">Sharing Your Information</h2>
+      <p class="policy-text">
+        We do not sell, trade, or rent your personal information to third parties. We may share
+        your data only with trusted service providers who assist us in operating our website and
+        fulfilling orders, under strict confidentiality agreements:
+      </p>
+      <ul class="policy-list">
+        <li>Payment processors (to handle transactions securely)</li>
+        <li>Shipping and logistics partners (to deliver your orders)</li>
+        <li>Email service providers (to send order and support communications)</li>
+      </ul>
+      <p class="policy-text" style="margin-top:1rem;">
+        We may also disclose your information if required by law or to protect the rights,
+        property, or safety of Grael, our customers, or others.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">05</p>
+      <h2 class="policy-section-title">Data Retention</h2>
+      <p class="policy-text">
+        We retain your personal data for as long as necessary to fulfil the purposes outlined
+        in this policy, or as required by law. Order records are kept for a minimum of 7 years
+        for accounting and legal compliance purposes.
+      </p>
+      <p class="policy-text">
+        Account information is retained until you request deletion. To delete your account
+        and associated data, contact us at the address below.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">06</p>
+      <h2 class="policy-section-title">Your Rights</h2>
+      <p class="policy-text">You have the right to:</p>
+      <ul class="policy-list">
+        <li>Access the personal information we hold about you</li>
+        <li>Request correction of inaccurate or incomplete data</li>
+        <li>Request deletion of your personal data ("right to be forgotten")</li>
+        <li>Withdraw consent for marketing communications at any time</li>
+        <li>Lodge a complaint with your local data protection authority</li>
+      </ul>
+      <p class="policy-text" style="margin-top:1.25rem;">
+        To exercise any of these rights, contact us at:
+      </p>
+      <div class="policy-highlight" style="margin-top:1rem;">
+        <a class="policy-contact" href="mailto:graelclothing@gmail.com">graelclothing@gmail.com</a>
+        <p style="font-size:0.65rem;opacity:0.35;margin-top:0.5rem;font-weight:300;">
+          We aim to respond to all data requests within 30 days.
+        </p>
+      </div>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">07</p>
+      <h2 class="policy-section-title">Security</h2>
+      <p class="policy-text">
+        We take the security of your data seriously and implement appropriate technical and
+        organisational measures to protect it against unauthorised access, alteration,
+        disclosure, or destruction. Payment information is encrypted and processed by our
+        payment partner — we do not store card details on our servers.
+      </p>
+      <p class="policy-text">
+        However, no method of transmission over the internet is 100% secure. While we strive
+        to protect your personal data, we cannot guarantee its absolute security.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">08</p>
+      <h2 class="policy-section-title">Changes to This Policy</h2>
+      <p class="policy-text">
+        We may update this Privacy Policy from time to time. When we do, we will revise the
+        "Last updated" date at the top of this page. We encourage you to review this policy
+        periodically to stay informed about how we protect your information.
+      </p>
+      <p class="policy-text">
+        Continued use of our website after any changes constitutes acceptance of the
+        updated policy.
+      </p>
+    </div>
+
+    <div class="policy-section">
+      <p class="policy-section-num">09</p>
+      <h2 class="policy-section-title">Contact</h2>
+      <p class="policy-text">
+        If you have any questions about this Privacy Policy or how we handle your data,
+        please reach out:
+      </p>
+      <div class="policy-highlight" style="margin-top:1.25rem;">
+        <p style="font-size:0.72rem;font-weight:300;opacity:0.8;margin-bottom:0.5rem;">Grael — Customer Privacy</p>
+        <a class="policy-contact" href="mailto:graelclothing@gmail.com">graelclothing@gmail.com</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="footer-left">
+      <p class="footer-brand">Grael</p>
+      <p class="footer-sub">&copy; 2026 All rights reserved.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="returns.html">Returns</a>
+      <a href="index.html#support">Support</a>
+    </nav>
+  </footer>
+
+  <script>
+    // Shared mountain canvas (same as main site)
+    (function () {
+      const canvas = document.getElementById('bgCanvas');
+      const ctx    = canvas.getContext('2d');
+      let W, H, stars = [];
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        buildStars();
+      }
+
+      function buildStars() {
+        stars = [];
+        const count = Math.floor(W * H / 7000);
+        for (let i = 0; i < count; i++) {
+          stars.push({ x: Math.random()*W, y: Math.random()*H*0.52,
+            r: Math.random()*0.8+0.2, a: Math.random()*0.35+0.05,
+            flicker: Math.random()*Math.PI*2 });
+        }
+      }
+
+      function heightAt(nx, nz, t) {
+        return (
+          Math.sin(nx*1.4+t*0.04)*0.18 + Math.sin(nx*2.9-t*0.03)*0.09 +
+          Math.sin(nx*0.7+t*0.025)*0.22 + Math.sin(nx*4.1+t*0.06)*0.045 +
+          Math.sin(nz*0.6+t*0.02)*0.06 +
+          Math.exp(-(nx-0.1)*(nx-0.1)*1.8)*0.55 +
+          Math.exp(-(nx+1.3)*(nx+1.3)*2.2)*0.38 +
+          Math.exp(-(nx-2.1)*(nx-2.1)*2.5)*0.30 +
+          Math.exp(-(nx+0.5)*(nx+0.5)*4.0)*0.20
+        );
+      }
+
+      function project(wx, wy, wz) {
+        const fov=H*0.72, camY=0.18, horizonY=H*0.52;
+        if (wz<0.01) return null;
+        return { sx: W*0.5+(wx/wz)*fov, sy: horizonY-((wy-camY)/wz)*fov, depth:wz };
+      }
+
+      const lerp = (a,b,t)=>a+(b-a)*t;
+      let scanY=0, scanDir=1;
+
+      function draw(ts) {
+        const t = ts*0.001;
+        ctx.clearRect(0,0,W,H);
+
+        const sky = ctx.createLinearGradient(0,0,0,H*0.6);
+        sky.addColorStop(0,'rgba(10,10,9,1)');
+        sky.addColorStop(0.5,'rgba(18,16,12,1)');
+        sky.addColorStop(1,'rgba(12,12,11,1)');
+        ctx.fillStyle=sky; ctx.fillRect(0,0,W,H);
+
+        stars.forEach(s=>{
+          const f=0.5+0.5*Math.sin(s.flicker+t*0.8);
+          ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+          ctx.fillStyle=`rgba(240,237,232,${s.a*f})`; ctx.fill();
+        });
+
+        const hg=ctx.createRadialGradient(W*0.5,H*0.52,0,W*0.5,H*0.52,W*0.45);
+        hg.addColorStop(0,'rgba(200,185,155,0.07)');
+        hg.addColorStop(0.4,'rgba(150,130,100,0.03)');
+        hg.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=hg; ctx.fillRect(0,H*0.27,W,H*0.5);
+
+        const COLS=60,ROWS=28,xSpan=7,zNear=0.5,zFar=5.5;
+        const P=[];
+        for(let r=0;r<=ROWS;r++){
+          P[r]=[];
+          for(let c=0;c<=COLS;c++){
+            const wx=(c/COLS-0.5)*xSpan*2;
+            const wz=zNear+(r/ROWS)*(zFar-zNear);
+            const ef=1-Math.pow(Math.abs(c/COLS-0.5)*1.8,3);
+            const df=1-r/ROWS*0.4;
+            const wy=Math.max(0,heightAt(wx*0.55,wz,t))*ef*df;
+            const p=project(wx,wy,wz);
+            P[r][c]=p?{...p,wy}:null;
+          }
+        }
+
+        for(let r=0;r<=ROWS;r++){
+          for(let c=0;c<=COLS;c++){
+            const p=P[r][c]; if(!p) continue;
+            const df=1-(r/ROWS)*0.75;
+            const hf=Math.pow(Math.max(0,p.wy/0.6),1.4);
+            const ba=lerp(0.025,0.12,df)+hf*0.12;
+            if(c<COLS&&P[r][c+1]){
+              const p2=P[r][c+1];
+              const hf2=Math.pow(Math.max(0,p2.wy/0.6),1.4);
+              const a=Math.min(0.28,(ba+(lerp(0.025,0.12,df)+hf2*0.12))*0.5);
+              ctx.beginPath(); ctx.moveTo(p.sx,p.sy); ctx.lineTo(p2.sx,p2.sy);
+              ctx.strokeStyle=`rgba(240,237,232,${a})`; ctx.lineWidth=0.4+hf*0.7; ctx.stroke();
+            }
+            if(r<ROWS&&P[r+1][c]){
+              const p2=P[r+1][c];
+              const hf2=Math.pow(Math.max(0,p2.wy/0.6),1.4);
+              const a=Math.min(0.22,(ba+(lerp(0.025,0.12,1-(r+1)/ROWS*0.75)+hf2*0.12))*0.5);
+              ctx.beginPath(); ctx.moveTo(p.sx,p.sy); ctx.lineTo(p2.sx,p2.sy);
+              ctx.strokeStyle=`rgba(240,237,232,${a})`; ctx.lineWidth=0.4+hf*0.5; ctx.stroke();
+            }
+          }
+        }
+
+        let px=W*0.5,py=H*0.45,ph=0;
+        P.forEach(row=>row.forEach(p=>{if(p&&p.wy>ph){ph=p.wy;px=p.sx;py=p.sy;}}));
+        if(ph>0.3){
+          const bloom=ctx.createRadialGradient(px,py,0,px,py,120);
+          bloom.addColorStop(0,`rgba(220,205,175,${ph*0.07})`);
+          bloom.addColorStop(0.4,`rgba(180,160,120,${ph*0.025})`);
+          bloom.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.fillStyle=bloom; ctx.beginPath(); ctx.arc(px,py,120,0,Math.PI*2); ctx.fill();
+        }
+
+        scanY+=scanDir*0.0006;
+        if(scanY>1){scanY=1;scanDir=-1;} if(scanY<0){scanY=0;scanDir=1;}
+        const sy2=H*(0.3+scanY*0.45);
+        const sg=ctx.createLinearGradient(0,sy2-2,0,sy2+2);
+        sg.addColorStop(0,'rgba(240,237,232,0)');
+        sg.addColorStop(0.5,'rgba(240,237,232,0.04)');
+        sg.addColorStop(1,'rgba(240,237,232,0)');
+        ctx.fillStyle=sg; ctx.fillRect(0,sy2-2,W,4);
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>

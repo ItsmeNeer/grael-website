@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRAEL — Above the Noise</title>
+  <meta name="description" content="Grael — premium basics for those who move quietly. Season One, 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/ga-monogram.svg" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       GRAEL — Editorial Redesign
+       Above the Noise · Season One · 2026
+       ═══════════════════════════════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #0a0a09;
+      --ink-2:      #111110;
+      --ink-3:      #16161410;
+      --bone:       #f0ede8;
+      --bone-90:    rgba(240,237,232,0.9);
+      --bone-60:    rgba(240,237,232,0.6);
+      --bone-40:    rgba(240,237,232,0.4);
+      --bone-25:    rgba(240,237,232,0.25);
+      --bone-12:    rgba(240,237,232,0.12);
+      --bone-06:    rgba(240,237,232,0.06);
+      --gold:       #c9b690;
+      --pad:        clamp(1.25rem, 4vw, 4rem);
+      --pad-lg:     clamp(2rem, 6vw, 6rem);
+      --ease:       cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-2:     cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #0a0a09;
+      color: var(--bone);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ─── Reveal ────────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d-1 { transition-delay: 0.08s; }
+    .d-2 { transition-delay: 0.18s; }
+    .d-3 { transition-delay: 0.28s; }
+    .d-4 { transition-delay: 0.42s; }
+    .d-5 { transition-delay: 0.56s; }
+
+    /* Word-by-word reveal */
+    .split-word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+    }
+    .split-word > span {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 0.9s var(--ease);
+    }
+    .reveal.in .split-word > span { transform: translateY(0); }
+    .split-word:nth-child(2) > span { transition-delay: 0.08s; }
+    .split-word:nth-child(3) > span { transition-delay: 0.16s; }
+    .split-word:nth-child(4) > span { transition-delay: 0.24s; }
+
+    /* ─── Announcement bar ──────────────────────────────────────── */
+    .announce {
+      background: var(--bone);
+      color: var(--ink);
+      text-align: center;
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      padding: 0.55rem 1rem;
+      font-weight: 300;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ─── Navigation ────────────────────────────────────────────── */
+    nav.primary {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10,10,9,0.78);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      border-bottom: 1px solid var(--bone-12);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--pad);
+      height: 62px;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 2.4rem; }
+    .nav-right { display: flex; justify-content: flex-end; align-items: center; gap: 1.2rem; }
+
+    .nav-link {
+      color: var(--bone);
+      text-decoration: none;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.55;
+      transition: opacity 0.25s;
+      position: relative;
+      padding-bottom: 3px;
+      background: none; border: none; cursor: none; font-family: inherit;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 100%;
+      bottom: 0;
+      height: 1px;
+      background: var(--bone-60);
+      transition: right 0.4s var(--ease);
+    }
+    .nav-link:hover { opacity: 1; }
+    .nav-link:hover::after { right: 0; }
+
+    .nav-logo a { display: flex; align-items: center; text-decoration: none; }
+    .monogram { width: 30px; height: 30px; }
+    .monogram svg { width: 100%; height: 100%; }
+
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--bone-12);
+      cursor: pointer;
+      color: var(--bone);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 0.5rem 0.9rem;
+      opacity: 0.65;
+      transition: opacity 0.2s, border-color 0.2s, background 0.2s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .icon-btn:hover { opacity: 1; border-color: var(--bone-25); }
+
+    .cart-trigger {
+      background: none; border: none; cursor: none;
+      color: var(--bone); padding: 0.3rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      opacity: 0.65; transition: opacity 0.2s;
+      font-family: inherit;
+    }
+    .cart-trigger:hover { opacity: 1; }
+    .cart-trigger-label {
+      font-size: 0.52rem; letter-spacing: 0.22em;
+      text-transform: uppercase; font-weight: 300;
+    }
+    .cart-count {
+      background: var(--bone);
+      color: var(--ink);
+      font-size: 0.45rem;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      display: none;
+      align-items: center; justify-content: center;
+      font-weight: 400;
+    }
+    .cart-count.on { display: flex; }
+
+    .avatar {
+      width: 26px; height: 26px;
+      border: 1px solid var(--bone-25);
+      border-radius: 50%;
+      display: none;
+      align-items: center; justify-content: center;
+      font-size: 0.55rem; letter-spacing: 0.05em;
+      background: var(--bone-06);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .avatar.on { display: flex; }
+    .avatar:hover { border-color: var(--bone-60); }
+
+    /* ═══ HERO ═════════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      width: 100%;
+      min-height: 100svh;
+      padding: clamp(3rem, 8vw, 6rem) var(--pad) clamp(3rem, 6vw, 5rem);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 2rem;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+
+    .hero-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      width: 30px; height: 1px;
+      background: var(--bone-25);
+    }
+
+    .hero-mark {
+      font-size: clamp(4.5rem, 16vw, 14rem);
+      font-weight: 200;
+      letter-spacing: 0.42em;
+      text-indent: 0.42em;
+      text-transform: uppercase;
+      line-height: 0.92;
+      color: var(--bone);
+    }
+
+    .hero-tag {
+      font-size: clamp(0.62rem, 1.4vw, 0.78rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.55;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary, .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      padding: 1rem 2.6rem;
+      font-weight: 300;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.4s var(--ease);
+      font-family: inherit;
+      background: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--bone);
+      color: var(--ink);
+      border: 1px solid var(--bone);
+    }
+    .btn-primary:hover { background: transparent; color: var(--bone); }
+
+    .btn-ghost {
+      border: 1px solid var(--bone-25);
+      color: var(--bone);
+    }
+    .btn-ghost:hover {
+      border-color: var(--bone);
+      background: var(--bone);
+      color: var(--ink);
+    }
+
+    .btn-primary svg, .btn-ghost svg { transition: transform 0.4s var(--ease); }
+    .btn-primary:hover svg, .btn-ghost:hover svg { transform: translateX(4px); }
+
+
+
+    /* ═══ FEATURED LOOKBOOK ═══════════════════════════════════════ */
+    #featured {
+      position: relative;
+      z-index: 1;
+      padding: clamp(5rem, 10vw, 9rem) var(--pad);
+      background: rgba(10,10,9,0.85);
+    }
+
+    .feat-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 6vw, 6rem);
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .feat-img {
+      position: relative;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      background: linear-gradient(160deg, #1c1b16 0%, #0d0d0c 100%);
+    }
+
+    .feat-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(10,10,9,0.6) 100%);
+    }
+
+    .feat-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s var(--ease);
+    }
+    .feat-img:hover img { transform: scale(1.04); }
+
+    .feat-overlay {
+      position: absolute;
+      bottom: 1.5rem; left: 1.5rem;
+      z-index: 1;
+      font-size: 0.5rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .feat-content { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .eyebrow {
+      font-size: 0.52rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .eyebrow::before {
+      content: ''; width: 20px; height: 1px; background: currentColor; opacity: 0.6;
+    }
+
+    .feat-headline {
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 200;
+      letter-spacing: 0.05em;
+      line-height: 1.05;
+    }
+
+    .feat-headline em {
+      font-style: normal;
+      opacity: 0.4;
+    }
+
+    .feat-body {
+      font-size: 0.82rem;
+      line-height: 1.85;
+      opacity: 0.55;
+      font-weight: 300;
+      max-width: 460px;
+    }
+
+    .feat-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--bone-12);
+    }
+
+    .feat-stat-num {
+      font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+      font-weight: 200;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .feat-stat-lbl {
+      font-size: 0.5rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+    }
+
+    /* ═══ PRODUCT SPOTLIGHT ═══════════════════════════════════════ */
+    #spotlight {
+      position: relative;
+      z-index: 1;
+      padding: clamp(5rem, 10vw, 9rem) var(--pad);
+      background: rgba(10,10,9,0.88);
+      border-top: 1px solid var(--bone-12);
+    }
+
+    .spot-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .spot-title {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 200;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .spot-meta {
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+    }
+
+    /* Hero product card */
+    .spot-card {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 0;
+      border: 1px solid var(--bone-12);
+      background: rgba(20,19,17,0.4);
+    }
+
+    .spot-img {
+      position: relative;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      background: linear-gradient(160deg, #1c1b16 0%, #0a0a09 100%);
+      border-right: 1px solid var(--bone-12);
+    }
+
+    .spot-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
+    }
+
+    .spot-img .img-back { opacity: 0; transform: scale(1.04); }
+    .spot-card:hover .img-front { opacity: 0; transform: scale(1.04); }
+    .spot-card:hover .img-back { opacity: 1; transform: scale(1); }
+
+
+    .spot-tag {
+      position: absolute;
+      top: 1.2rem; right: 1.2rem;
+      z-index: 3;
+      background: var(--ink);
+      color: var(--bone);
+      font-size: 0.5rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.7rem;
+      border: 1px solid var(--bone-12);
+      font-weight: 300;
+    }
+
+    .spot-info {
+      padding: clamp(2rem, 4vw, 3.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .spot-prod-tag {
+      font-size: 0.5rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+    }
+
+    .spot-prod-name {
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      font-weight: 200;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+    }
+
+    .spot-prod-desc {
+      font-size: 0.78rem;
+      line-height: 1.85;
+      opacity: 0.55;
+      font-weight: 300;
+    }
+
+    .spot-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      padding: 1rem 0;
+      border-top: 1px solid var(--bone-12);
+      border-bottom: 1px solid var(--bone-12);
+      margin: 0.5rem 0;
+    }
+
+    .spot-detail dt {
+      font-size: 0.5rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+    }
+
+    .spot-detail dd {
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      font-weight: 300;
+      opacity: 0.85;
+    }
+
+    .spot-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .spot-price {
+      font-size: 1.3rem;
+      font-weight: 200;
+      letter-spacing: 0.04em;
+    }
+
+    .spot-stock {
+      font-size: 0.5rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      font-weight: 300;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .spot-stock::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: #6fcf97;
+      border-radius: 50%;
+    }
+
+    .spot-actions { display: flex; gap: 0.7rem; }
+
+    .spot-actions .btn-primary {
+      flex: 1; padding: 1rem 1.5rem;
+    }
+
+    .spot-actions .save-toggle {
+      width: 50px;
+      background: none;
+      border: 1px solid var(--bone-25);
+      color: var(--bone);
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .spot-actions .save-toggle:hover { border-color: var(--bone); }
+    .spot-actions .save-toggle.saved svg { fill: var(--bone); }
+
+    /* ═══ MANIFESTO ═══════════════════════════════════════════════ */
+    #manifesto {
+      position: relative;
+      z-index: 1;
+      padding: clamp(6rem, 12vw, 10rem) var(--pad);
+      background: rgba(10,10,9,0.6);
+      border-top: 1px solid var(--bone-12);
+      border-bottom: 1px solid var(--bone-12);
+      overflow: hidden;
+    }
+
+    .manifesto-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: clamp(2rem, 6vw, 6rem);
+      align-items: start;
+      position: relative;
+    }
+
+    .manifesto-side {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .manifesto-text {
+      font-size: clamp(1.2rem, 2.8vw, 2rem);
+      font-weight: 200;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
+    .manifesto-text em {
+      font-style: normal;
+      opacity: 0.4;
+    }
+
+    .manifesto-sig {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--bone-12);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    /* ═══ ATELIER GRID ════════════════════════════════════════════ */
+    #atelier {
+      position: relative;
+      z-index: 1;
+      padding: clamp(5rem, 10vw, 9rem) var(--pad);
+      background: rgba(10,10,9,0.85);
+    }
+
+    .atelier-head {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      max-width: 760px;
+    }
+
+    .atelier-title {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 200;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .atelier-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--bone-12);
+      border: 1px solid var(--bone-12);
+    }
+
+    .atelier-cell {
+      background: rgba(15,14,12,0.85);
+      padding: clamp(2rem, 3.5vw, 2.8rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: relative;
+      transition: background 0.4s var(--ease);
+      min-height: 280px;
+    }
+
+    .atelier-cell:hover { background: rgba(28,27,22,0.85); }
+
+    .atelier-num {
+      font-size: 0.5rem;
+      letter-spacing: 0.32em;
+      opacity: 0.3;
+      font-weight: 300;
+    }
+
+    .atelier-name {
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 200;
+      margin-top: auto;
+    }
+
+    .atelier-desc {
+      font-size: 0.72rem;
+      line-height: 1.85;
+      opacity: 0.5;
+      font-weight: 300;
+      max-width: 280px;
+    }
+
+    .atelier-icon {
+      width: 28px; height: 28px;
+      opacity: 0.45;
+    }
+
+    /* ═══ NEWSLETTER ══════════════════════════════════════════════ */
+    #newsletter {
+      position: relative;
+      z-index: 1;
+      padding: clamp(5rem, 10vw, 8rem) var(--pad);
+      background: rgba(10,10,9,0.95);
+      border-top: 1px solid var(--bone-12);
+      border-bottom: 1px solid var(--bone-12);
+      text-align: center;
+    }
+
+    .news-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .news-mark {
+      width: 40px; height: 40px;
+      opacity: 0.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .news-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 200;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+    }
+
+    .news-sub {
+      font-size: 0.78rem;
+      line-height: 1.8;
+      opacity: 0.5;
+      font-weight: 300;
+      max-width: 480px;
+    }
+
+    .news-form {
+      display: flex;
+      width: 100%;
+      max-width: 480px;
+      margin-top: 1rem;
+      border: 1px solid var(--bone-25);
+      transition: border-color 0.3s;
+    }
+
+    .news-form:focus-within { border-color: var(--bone); }
+
+    .news-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--bone);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      padding: 1rem 1.2rem;
+      outline: none;
+    }
+
+    .news-input::placeholder { opacity: 0.35; }
+
+    .news-submit {
+      background: var(--bone);
+      border: none;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 0 2rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .news-submit:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .news-fine {
+      font-size: 0.5rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.3;
+      font-weight: 300;
+      margin-top: 0.5rem;
+    }
+
+    .news-success {
+      display: none;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      padding: 0.8rem;
+      border: 1px solid var(--bone-25);
+      margin-top: 1rem;
+      font-weight: 300;
+    }
+    .news-success.on { display: block; }
+
+    /* ═══ SUPPORT / FAQ ═══════════════════════════════════════════ */
+    #support {
+      position: relative;
+      z-index: 1;
+      padding: clamp(5rem, 10vw, 9rem) var(--pad);
+      background: rgba(10,10,9,0.88);
+    }
+
+    .support-head {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      max-width: 760px;
+    }
+
+    .support-title {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 200;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .faq-wrap { max-width: 820px; }
+
+    .faq-intro {
+      font-size: 0.78rem;
+      line-height: 1.85;
+      opacity: 0.5;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .faq-item { border-top: 1px solid var(--bone-12); }
+    .faq-item:last-child { border-bottom: 1px solid var(--bone-12); }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--bone);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      font-weight: 300;
+      text-align: left;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0.75;
+      transition: opacity 0.2s, padding 0.4s var(--ease);
+    }
+    .faq-q:hover { opacity: 1; padding-left: 0.5rem; }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      position: relative;
+      opacity: 0.4;
+      transition: transform 0.4s var(--ease);
+    }
+    .faq-icon::before, .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--bone);
+    }
+    .faq-icon::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq-icon::after { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); opacity: 0.7; }
+
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s var(--ease);
+    }
+    .faq-a-inner {
+      padding: 0 0 1.5rem;
+      font-size: 0.76rem;
+      line-height: 1.85;
+      opacity: 0.5;
+      font-weight: 300;
+      max-width: 700px;
+    }
+    .faq-item.open .faq-a { max-height: 400px; }
+
+    /* ═══ FOOTER ══════════════════════════════════════════════════ */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--ink);
+      border-top: 1px solid var(--bone-12);
+      padding: clamp(3rem, 6vw, 5rem) var(--pad) clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      padding-bottom: clamp(2rem, 4vw, 3.5rem);
+      border-bottom: 1px solid var(--bone-12);
+    }
+
+    .footer-brand-block {
+      display: flex; flex-direction: column; gap: 1rem;
+      max-width: 320px;
+    }
+
+    .footer-mark { width: 32px; height: 32px; opacity: 0.7; }
+
+    .footer-tagline {
+      font-size: 0.7rem;
+      line-height: 1.85;
+      opacity: 0.5;
+      font-weight: 300;
+    }
+
+    .footer-col-title {
+      font-size: 0.5rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex; flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .footer-col a {
+      color: var(--bone);
+      text-decoration: none;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      font-weight: 300;
+      cursor: pointer;
+    }
+    .footer-col a:hover { opacity: 1; }
+    .footer-col button {
+      background: none; border: none; padding: 0;
+      color: var(--bone);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      font-weight: 300;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+    }
+    .footer-col button:hover { opacity: 1; }
+
+    .footer-bottom {
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.3;
+      font-weight: 300;
+    }
+
+
+    /* ═══ MODALS / DRAWERS ═══════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(10,10,9,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+    }
+    .modal-overlay.on { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--ink-2);
+      border: 1px solid var(--bone-12);
+      width: 100%;
+      max-width: 440px;
+      padding: clamp(2rem, 5vw, 3rem);
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.5s var(--ease);
+      position: relative;
+    }
+    .modal-overlay.on .modal { transform: none; }
+
+    .modal-x {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      background: none; border: none;
+      color: var(--bone);
+      opacity: 0.35; cursor: none;
+      font-size: 1.3rem; line-height: 1;
+      transition: opacity 0.2s; padding: 0.25rem;
+    }
+    .modal-x:hover { opacity: 0.85; }
+
+    .modal-mark {
+      display: flex; justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .modal-mark svg { width: 36px; height: 36px; opacity: 0.7; }
+
+    .modal-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--bone-12);
+      margin-bottom: 2rem;
+    }
+
+    .modal-tab {
+      background: none; border: none;
+      color: var(--bone);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 0.85rem;
+      cursor: pointer;
+      opacity: 0.35;
+      transition: opacity 0.2s;
+      border-bottom: 1px solid transparent;
+      margin-bottom: -1px;
+    }
+    .modal-tab.active { opacity: 1; border-bottom-color: var(--bone); }
+
+    .modal-panel { display: none; }
+    .modal-panel.active { display: block; }
+
+    .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.1rem; }
+
+    .field label {
+      font-size: 0.5rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 300;
+    }
+
+    .field input {
+      background: var(--bone-06);
+      border: 1px solid var(--bone-12);
+      color: var(--bone);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      outline: none;
+      letter-spacing: 0.04em;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .field input:focus { border-color: var(--bone-40); background: var(--bone-12); }
+    .field input::placeholder { opacity: 0.3; }
+
+    .modal-submit {
+      width: 100%;
+      background: var(--bone);
+      border: 1px solid var(--bone);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 1rem;
+      cursor: pointer;
+      margin-top: 0.4rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .modal-submit:hover { background: transparent; color: var(--bone); }
+
+    .modal-error {
+      font-size: 0.6rem;
+      color: #e07070;
+      letter-spacing: 0.08em;
+      margin-top: 0.75rem;
+      min-height: 1em;
+      font-weight: 300;
+    }
+
+    /* Account dropdown */
+    .acct-dd {
+      position: fixed;
+      top: 70px; right: var(--pad);
+      z-index: 300;
+      background: var(--ink-2);
+      border: 1px solid var(--bone-12);
+      width: 240px;
+      padding: 1.5rem;
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.3s var(--ease);
+    }
+    .acct-dd.on { opacity: 1; pointer-events: all; transform: translateY(0); }
+
+    .dd-name { font-size: 0.78rem; letter-spacing: 0.08em; font-weight: 200; margin-bottom: 0.3rem; }
+    .dd-email { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.04em; font-weight: 300; margin-bottom: 1.2rem; word-break: break-all; }
+
+    .dd-rule { height: 1px; background: var(--bone-12); margin: 0.5rem 0 1rem; }
+
+    .dd-link {
+      display: block;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      color: var(--bone);
+      text-decoration: none;
+      font-weight: 300;
+      padding: 0.5rem 0;
+      transition: opacity 0.2s, padding-left 0.3s var(--ease);
+      cursor: pointer;
+      background: none; border: none; width: 100%; text-align: left;
+      font-family: inherit;
+    }
+    .dd-link:hover { opacity: 1; padding-left: 0.4rem; }
+
+    /* Drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(10,10,9,0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+    }
+    .drawer-overlay.on { opacity: 1; pointer-events: all; }
+
+    .drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(440px, 100vw);
+      z-index: 410;
+      background: var(--ink-2);
+      border-left: 1px solid var(--bone-12);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.55s var(--ease);
+      overflow: hidden;
+    }
+    .drawer.on { transform: translateX(0); }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1.75rem;
+      border-bottom: 1px solid var(--bone-12);
+      flex-shrink: 0;
+    }
+    .drawer-title { font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 200; }
+    .drawer-x {
+      background: none; border: none; cursor: none;
+      color: var(--bone); opacity: 0.4;
+      font-size: 1.3rem; line-height: 1;
+      transition: opacity 0.2s; padding: 0.2rem;
+    }
+    .drawer-x:hover { opacity: 0.9; }
+
+    .drawer-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--bone-12);
+      flex-shrink: 0;
+    }
+
+    .drawer-tab {
+      background: none; border: none;
+      color: var(--bone);
+      font-family: inherit;
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 0.95rem 0.5rem;
+      cursor: pointer;
+      opacity: 0.35;
+      transition: opacity 0.2s;
+      border-bottom: 1px solid transparent;
+      margin-bottom: -1px;
+      position: relative;
+    }
+    .drawer-tab.active { opacity: 1; border-bottom-color: var(--bone); }
+
+    .tab-badge {
+      position: absolute;
+      top: 8px; right: calc(50% - 18px);
+      background: var(--bone);
+      color: var(--ink);
+      font-size: 0.42rem;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      display: none;
+      align-items: center; justify-content: center;
+    }
+    .tab-badge.on { display: flex; }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem 1.75rem;
+    }
+
+    .drawer-panel { display: none; }
+    .drawer-panel.active { display: block; }
+
+    .empty {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding: 3rem 1rem;
+      gap: 1rem;
+      opacity: 0.4;
+    }
+    .empty-title { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 200; }
+    .empty-text { font-size: 0.65rem; line-height: 1.7; opacity: 0.7; font-weight: 300; }
+
+    .ci, .si {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--bone-06);
+    }
+
+    .ci-img, .si-img {
+      width: 64px; aspect-ratio: 3/4;
+      object-fit: cover;
+      border: 1px solid var(--bone-12);
+      background: linear-gradient(160deg,#1c1b16,#0a0a09);
+    }
+
+    .ci-name, .si-name {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 300;
+      margin-bottom: 0.3rem;
+    }
+    .ci-sub, .si-sub {
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      opacity: 0.4;
+      font-weight: 300;
+    }
+
+    .ci-price {
+      font-size: 0.72rem;
+      font-weight: 200;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .ci-x, .si-x {
+      background: none; border: none; cursor: none;
+      color: var(--bone); opacity: 0.3;
+      font-size: 1rem; line-height: 1; padding: 0;
+      transition: opacity 0.2s; margin-top: 0.15rem;
+    }
+    .ci-x:hover, .si-x:hover { opacity: 0.8; }
+
+    .move-cart {
+      margin-top: 0.6rem;
+      background: none;
+      border: 1px solid var(--bone-12);
+      color: var(--bone);
+      font-family: inherit;
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+    }
+    .move-cart:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+
+    .order-row {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--bone-06);
+      display: flex; flex-direction: column;
+      gap: 0.5rem;
+    }
+    .order-id { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.4; font-weight: 300; }
+    .order-name { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 300; }
+    .order-meta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .order-date { font-size: 0.6rem; opacity: 0.4; font-weight: 300; }
+    .order-status {
+      font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-weight: 300; padding: 0.3rem 0.7rem; border: 1px solid var(--bone-12); opacity: 0.6;
+    }
+    .order-price { font-size: 0.72rem; font-weight: 200; }
+
+    .cart-foot {
+      position: sticky; bottom: 0;
+      background: var(--ink-2);
+      border-top: 1px solid var(--bone-12);
+      padding: 1.5rem 1.75rem;
+      flex-shrink: 0;
+      display: none;
+    }
+    .cart-foot.on { display: block; }
+
+    .cart-tot {
+      display: flex; justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+    .cart-tot-l { font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.5; font-weight: 300; }
+    .cart-tot-v { font-size: 0.85rem; font-weight: 200; letter-spacing: 0.04em; }
+
+    .checkout {
+      width: 100%;
+      background: var(--bone);
+      border: 1px solid var(--bone);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 300;
+      padding: 1rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .checkout:hover { background: transparent; color: var(--bone); }
+
+    /* ═══ MOBILE ═════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .nav-link { font-size: 0.55rem; }
+      .feat-wrap { grid-template-columns: 1fr; }
+      .spot-card { grid-template-columns: 1fr; }
+      .spot-img { border-right: none; border-bottom: 1px solid var(--bone-12); }
+      .manifesto-grid { grid-template-columns: 1fr; }
+      .atelier-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .nav-left { display: none; }
+      .icon-btn span { display: none; }
+      .cart-trigger-label { display: none; }
+      .feat-stats { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .news-form { flex-direction: column; }
+      .news-submit { padding: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-mark { letter-spacing: 0.22em; text-indent: 0.22em; }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- ─── Announcement ─── -->
+  <div class="announce">Season One · Available Now · Grael 2026</div>
+
+  <!-- ─── Navigation ─── -->
+  <nav class="primary">
+    <div class="nav-left">
+      <a class="nav-link" href="#hero">Home</a>
+      <a class="nav-link" href="#spotlight">Shop</a>
+      <a class="nav-link" href="#atelier">Atelier</a>
+      <a class="nav-link" href="#support">Support</a>
+    </div>
+
+    <div class="nav-logo">
+      <a href="#hero" aria-label="Grael" data-magnetic>
+        <div class="monogram">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="1" y="33" font-family="Jost,sans-serif" font-size="26"
+                  font-weight="200" letter-spacing="-6" fill="#f0ede8" opacity="0.88">GA</text>
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <button class="icon-btn" id="loginOpen" data-cursor-hover>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Sign In</span>
+      </button>
+
+      <div class="avatar" id="avatar" role="button" tabindex="0" data-cursor-hover></div>
+
+      <button class="cart-trigger" id="cartOpen" data-cursor-hover>
+        <span class="cart-trigger-label">Cart</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── Account dropdown ─── -->
+  <div class="acct-dd" id="acctDD">
+    <p class="dd-name" id="ddName">—</p>
+    <p class="dd-email" id="ddEmail">—</p>
+    <div class="dd-rule"></div>
+    <button class="dd-link" onclick="openDrawer('orders')" data-cursor-hover>My Orders</button>
+    <button class="dd-link" onclick="openDrawer('saved')" data-cursor-hover>Saved Items</button>
+    <button class="dd-link" onclick="openDrawer('cart')" data-cursor-hover>Cart</button>
+    <div class="dd-rule"></div>
+    <button class="dd-link" id="signOut" data-cursor-hover>Sign Out</button>
+  </div>
+
+  <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-center">
+      <p class="hero-eyebrow reveal d-1">Drop 01 · 2026</p>
+
+      <h1 class="hero-mark reveal d-2">Grael</h1>
+
+      <p class="hero-tag reveal d-3">Above the Noise</p>
+
+      <div class="hero-cta-row reveal d-4">
+        <a href="#spotlight" class="btn-primary" data-magnetic data-cursor-hover>
+          Shop the Drop
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+        <a href="#manifesto" class="btn-ghost" data-magnetic data-cursor-hover>
+          The Manifesto
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═══ FEATURED LOOKBOOK ═════════════════════════════════════ -->
+  <section id="featured">
+    <div class="feat-wrap">
+      <div class="feat-img reveal">
+        <img src="assets/hero.webp" alt="Grael Season One Lookbook" onerror="this.style.display='none'" />
+        <span class="feat-overlay">Look 01 · Drop 01</span>
+      </div>
+
+      <div class="feat-content">
+        <p class="eyebrow reveal">Editorial · Lookbook</p>
+        <h2 class="feat-headline reveal d-1">
+          Built for those <em>who move<br/>quietly</em> — through<br/>everything.
+        </h2>
+        <p class="feat-body reveal d-2">
+          Season One is a study in restraint. Heavy fabrics,
+          considered cuts, the fewest details possible. Each
+          piece is constructed to outlast the moment it was made for.
+        </p>
+
+        <div class="feat-stats reveal d-3">
+          <div>
+            <p class="feat-stat-num">450</p>
+            <p class="feat-stat-lbl">GSM Cotton</p>
+          </div>
+          <div>
+            <p class="feat-stat-num">01</p>
+            <p class="feat-stat-lbl">Hero Piece</p>
+          </div>
+          <div>
+            <p class="feat-stat-num">24</p>
+            <p class="feat-stat-lbl">Hours Construction</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRODUCT SPOTLIGHT ═════════════════════════════════════ -->
+  <section id="spotlight">
+    <div class="spot-head">
+      <h2 class="spot-title reveal">The Hero Piece</h2>
+      <p class="spot-meta reveal d-1">Season One / 01 of 01</p>
+    </div>
+
+    <article class="spot-card reveal d-1">
+      <div class="spot-img">
+        <img class="img-front" src="assets/hoodie-front.webp" alt="Signature Hoodie — Front" onerror="this.style.display='none'" />
+        <img class="img-back" src="assets/hoodie-back.webp" alt="Signature Hoodie — Back" onerror="this.style.display='none'" />
+        <span class="spot-tag">New</span>
+      </div>
+
+      <div class="spot-info">
+        <p class="spot-prod-tag">Drop 01 · Apparel</p>
+        <h3 class="spot-prod-name">The Signature Hoodie</h3>
+        <p class="spot-prod-desc">
+          Heavyweight cotton-poly blend, brushed interior, structured
+          shoulder. The defining piece of Season One — built to
+          last beyond the season it was made for.
+        </p>
+
+        <dl class="spot-detail">
+          <dt>Material</dt>
+          <dd>450gsm Cotton-Poly</dd>
+          <dt>Cut</dt>
+          <dd>Slightly Relaxed</dd>
+          <dt>Colour</dt>
+          <dd>Off-Black</dd>
+          <dt>Origin</dt>
+          <dd>Made in Portugal</dd>
+        </dl>
+
+        <div class="spot-price-row">
+          <p class="spot-price">$70.00</p>
+          <span class="spot-stock">In Stock</span>
+        </div>
+
+        <div class="spot-actions">
+          <button class="btn-primary" id="addCartBtn" data-magnetic data-cursor-hover
+                  data-name="Signature Hoodie" data-price="70.00" data-img="assets/hoodie-front.webp">
+            Add to Cart
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+          <button class="save-toggle" id="saveBtn" data-cursor-hover
+                  data-name="Signature Hoodie" data-price="70.00" data-img="assets/hoodie-front.webp"
+                  aria-label="Save">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ═══ MANIFESTO ═════════════════════════════════════════════ -->
+  <section id="manifesto">
+    <div class="manifesto-wrap">
+      <div class="manifesto-grid">
+        <div class="manifesto-side reveal">
+          <p class="eyebrow">Manifesto</p>
+        </div>
+
+        <div class="reveal d-1">
+          <p class="manifesto-text">
+            Grael was built for those who choose to move quietly.<br/>
+            <em>No logos competing for attention. No shortcuts.</em><br/>
+            Just the essential — worn with intent, season after season.
+          </p>
+
+          <div class="manifesto-sig">
+            <span>Grael · Founded 2026</span>
+            <span>Issue 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ATELIER GRID ══════════════════════════════════════════ -->
+  <section id="atelier">
+    <div class="atelier-head">
+      <p class="eyebrow reveal">The Standard</p>
+      <h2 class="atelier-title reveal d-1">What We Stand For</h2>
+    </div>
+
+    <div class="atelier-grid">
+      <div class="atelier-cell reveal">
+        <p class="atelier-num">01</p>
+        <svg class="atelier-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+        </svg>
+        <p class="atelier-name">Simplicity</p>
+        <p class="atelier-desc">No excess. Every detail earns its place — nothing is decorative for its own sake.</p>
+      </div>
+
+      <div class="atelier-cell reveal d-1">
+        <p class="atelier-num">02</p>
+        <svg class="atelier-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="3" y="3" width="18" height="18"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="3" y1="15" x2="21" y2="15"/>
+        </svg>
+        <p class="atelier-name">Consistency</p>
+        <p class="atelier-desc">Season after season, the standard stays the same. Above the noise, always.</p>
+      </div>
+
+      <div class="atelier-cell reveal d-2">
+        <p class="atelier-num">03</p>
+        <svg class="atelier-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/>
+        </svg>
+        <p class="atelier-name">Quality</p>
+        <p class="atelier-desc">Built to last. Premium fabrication, considered construction, no shortcuts taken.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NEWSLETTER ════════════════════════════════════════════ -->
+  <section id="newsletter">
+    <div class="news-wrap">
+      <svg class="news-mark reveal" viewBox="0 0 44 44" fill="none">
+        <text x="1" y="33" font-family="Jost,sans-serif" font-size="26" font-weight="200"
+              letter-spacing="-6" fill="#f0ede8">GA</text>
+      </svg>
+      <p class="eyebrow reveal d-1">The List</p>
+      <h2 class="news-title reveal d-2">Be First to Know</h2>
+      <p class="news-sub reveal d-3">
+        Drop alerts, restocks, and quiet announcements only —
+        delivered when there's something worth saying.
+      </p>
+
+      <form class="news-form reveal d-3" id="newsForm">
+        <input class="news-input" type="email" placeholder="Your email address" required />
+        <button class="news-submit" type="submit" data-cursor-hover>Subscribe</button>
+      </form>
+
+      <div class="news-success" id="newsSuccess">
+        ✓ &nbsp; You're on the list.
+      </div>
+
+      <p class="news-fine reveal">No spam. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <!-- ═══ SUPPORT / FAQ ═════════════════════════════════════════ -->
+  <section id="support">
+    <div class="support-head">
+      <p class="eyebrow reveal">Customer Care</p>
+      <h2 class="support-title reveal d-1">Questions</h2>
+    </div>
+
+    <div class="faq-wrap reveal">
+      <p class="faq-intro">
+        Find answers to common questions below. For anything else, reach
+        us directly — we respond within 24–48 hours on business days.
+      </p>
+
+      <div class="faq-item">
+        <button class="faq-q" data-cursor-hover>How long does shipping take?<span class="faq-icon"></span></button>
+        <div class="faq-a"><p class="faq-a-inner">
+          Standard domestic shipping takes 5–7 business days. Expedited options (2–3 days)
+          are available at checkout. Shipping costs are calculated at checkout based on your
+          location. You'll receive tracking via email once your order ships.
+        </p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-cursor-hover>What is your return policy?<span class="faq-icon"></span></button>
+        <div class="faq-a"><p class="faq-a-inner">
+          We accept returns within 30 days of delivery. Items must be unworn, unwashed,
+          and in original condition with tags attached. See our <a href="returns.html" style="color:var(--bone);opacity:0.7;">Returns page</a>
+          for full details.
+        </p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-cursor-hover>How do I find my size?<span class="faq-icon"></span></button>
+        <div class="faq-a"><p class="faq-a-inner">
+          The Signature Hoodie fits true to size with a slightly relaxed silhouette.
+          For a more oversized fit, size up. Detailed measurements live on the product page.
+        </p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-cursor-hover>Do you ship internationally?<span class="faq-icon"></span></button>
+        <div class="faq-a"><p class="faq-a-inner">
+          Season One ships within the US. International shipping arrives in future seasons.
+          Subscribe to The List to be notified when your region is supported.
+        </p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-cursor-hover>What are the hoodies made from?<span class="faq-icon"></span></button>
+        <div class="faq-a"><p class="faq-a-inner">
+          The Signature Hoodie is constructed from a heavyweight 450gsm cotton-polyester
+          blend — brushed inside for warmth, structured outside for shape retention.
+          Made in Portugal. No shortcuts in material selection.
+        </p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ════════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand-block">
+        <svg class="footer-mark" viewBox="0 0 44 44" fill="none">
+          <text x="1" y="33" font-family="Jost,sans-serif" font-size="26" font-weight="200"
+                letter-spacing="-6" fill="#f0ede8">GA</text>
+        </svg>
+        <p class="footer-tagline">
+          Grael — premium basics for those who move quietly.
+          Season One, 2026.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Shop</p>
+        <ul>
+          <li><a href="#spotlight" data-cursor-hover>The Signature Hoodie</a></li>
+          <li><a href="#featured" data-cursor-hover>Lookbook</a></li>
+          <li><a href="#spotlight" data-cursor-hover>Season One</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Care</p>
+        <ul>
+          <li><a href="#support" data-cursor-hover>Support</a></li>
+          <li><a href="returns.html" data-cursor-hover>Returns</a></li>
+          <li><a href="privacy.html" data-cursor-hover>Privacy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Account</p>
+        <ul>
+          <li><button onclick="document.getElementById('loginOpen').click()" data-cursor-hover>Sign In</button></li>
+          <li><button onclick="openDrawer('orders')" data-cursor-hover>Orders</button></li>
+          <li><button onclick="openDrawer('saved')" data-cursor-hover>Saved</button></li>
+          <li><a href="mailto:graelclothing@gmail.com" data-cursor-hover>Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2026 Grael · All Rights Reserved</p>
+      <p class="footer-copy">Above the Noise · Season One</p>
+    </div>
+  </footer>
+
+  <!-- ═══ MODALS ════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="modal-x" id="loginX" data-cursor-hover>&times;</button>
+      <div class="modal-mark">
+        <svg viewBox="0 0 44 44" fill="none">
+          <text x="1" y="33" font-family="Jost,sans-serif" font-size="26" font-weight="200"
+                letter-spacing="-6" fill="#f0ede8" opacity="0.7">GA</text>
+        </svg>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="login" data-cursor-hover>Sign In</button>
+        <button class="modal-tab" data-tab="register" data-cursor-hover>Create Account</button>
+      </div>
+
+      <div class="modal-panel active" id="panel-login">
+        <div class="field"><label>Email</label><input id="loginEmail" type="email" placeholder="your@email.com" /></div>
+        <div class="field"><label>Password</label><input id="loginPassword" type="password" placeholder="••••••••" /></div>
+        <button class="modal-submit" id="loginBtn" data-cursor-hover>Sign In</button>
+        <p class="modal-error" id="loginError"></p>
+      </div>
+
+      <div class="modal-panel" id="panel-register">
+        <div class="field"><label>Full Name</label><input id="regName" type="text" placeholder="Your name" /></div>
+        <div class="field"><label>Email</label><input id="regEmail" type="email" placeholder="your@email.com" /></div>
+        <div class="field"><label>Password</label><input id="regPassword" type="password" placeholder="Min. 6 characters" /></div>
+        <button class="modal-submit" id="regBtn" data-cursor-hover>Create Account</button>
+        <p class="modal-error" id="regError"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DRAWER ═══════════════════════════════════════════════ -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <p class="drawer-title">Account</p>
+      <button class="drawer-x" id="drawerX" data-cursor-hover>&times;</button>
+    </div>
+
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" data-dt="orders" data-cursor-hover>Orders</button>
+      <button class="drawer-tab" data-dt="saved" data-cursor-hover>Saved</button>
+      <button class="drawer-tab" data-dt="cart" data-cursor-hover>Cart<span class="tab-badge" id="cartTabBadge"></span></button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="drawer-panel active" id="dp-orders">
+        <div class="empty" id="ordersEmpty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <p class="empty-title">No orders yet</p>
+          <p class="empty-text">When you place an order it will appear here.</p>
+        </div>
+        <div id="ordersList"></div>
+      </div>
+
+      <div class="drawer-panel" id="dp-saved">
+        <div class="empty" id="savedEmpty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+          <p class="empty-title">Nothing saved yet</p>
+          <p class="empty-text">Tap the heart on any product to save it here.</p>
+        </div>
+        <div id="savedList"></div>
+      </div>
+
+      <div class="drawer-panel" id="dp-cart">
+        <div class="empty" id="cartEmpty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <p class="empty-title">Your cart is empty</p>
+          <p class="empty-text">Add the Signature Hoodie to get started.</p>
+        </div>
+        <div id="cartList"></div>
+      </div>
+    </div>
+
+    <div class="cart-foot" id="cartFoot">
+      <div class="cart-tot">
+        <span class="cart-tot-l">Total</span>
+        <span class="cart-tot-v" id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout" id="checkoutBtn" data-cursor-hover>Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════════════
+       GRAEL — Behaviour
+       ═══════════════════════════════════════════════════════════════ */
+
+    /* ── Scroll reveal ─────────────────────────────────────────── */
+    const ro = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    /* ── FAQ ───────────────────────────────────────────────────── */
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        if (!open) item.classList.add('open');
+      });
+    });
+
+    /* ═══ Storage / state ════════════════════════════════════════ */
+    const K = { user: 'grael_user', accts: 'grael_accounts', cart: 'grael_cart',
+                saved: 'grael_saved', orders: 'grael_orders' };
+    const ls = (k, fb) => { try { return JSON.parse(localStorage.getItem(k)) ?? fb; } catch { return fb; } };
+    const lsSet = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
+    let cart = ls(K.cart, []);
+    let saved = ls(K.saved, []);
+    let orders = ls(K.orders, []);
+
+    /* ── Cart badges ───────────────────────────────────────────── */
+    function refreshBadges() {
+      const n = cart.reduce((s, i) => s + i.qty, 0);
+      const ccount = document.getElementById('cartCount');
+      const tbadge = document.getElementById('cartTabBadge');
+      ccount.textContent = n;
+      ccount.classList.toggle('on', n > 0);
+      tbadge.textContent = n || '';
+      tbadge.classList.toggle('on', n > 0);
+    }
+
+    /* ── Render: cart ──────────────────────────────────────────── */
+    function renderCart() {
+      const list = document.getElementById('cartList');
+      const empty = document.getElementById('cartEmpty');
+      const foot = document.getElementById('cartFoot');
+      list.innerHTML = '';
+
+      if (!cart.length) {
+        empty.style.display = 'flex';
+        foot.classList.remove('on');
+        return;
+      }
+      empty.style.display = 'none';
+      foot.classList.add('on');
+
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += parseFloat(item.price) * item.qty;
+        const row = document.createElement('div');
+        row.className = 'ci';
+        row.innerHTML = `
+          ${item.img ? `<img class="ci-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='linear-gradient(160deg,#1c1b16,#0a0a09)';this.removeAttribute('src');this.alt='';" />` : `<div class="ci-img"></div>`}
+          <div>
+            <p class="ci-name">${item.name}</p>
+            <p class="ci-sub">Season One · 2026</p>
+            <p class="ci-sub" style="margin-top:0.4rem;">Qty · ${item.qty}</p>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.6rem;">
+            <p class="ci-price">$${(parseFloat(item.price) * item.qty).toFixed(2)}</p>
+            <button class="ci-x" data-i="${idx}" data-cursor-hover>&times;</button>
+          </div>`;
+        list.appendChild(row);
+      });
+
+      document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+      list.querySelectorAll('.ci-x').forEach(b => b.addEventListener('click', () => {
+        cart.splice(parseInt(b.dataset.i), 1);
+        lsSet(K.cart, cart); refreshBadges(); renderCart();
+      }));
+    }
+
+    /* ── Render: saved ────────────────────────────────────────── */
+    function renderSaved() {
+      const list = document.getElementById('savedList');
+      const empty = document.getElementById('savedEmpty');
+      list.innerHTML = '';
+
+      if (!saved.length) { empty.style.display = 'flex'; return; }
+      empty.style.display = 'none';
+
+      saved.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'si';
+        row.innerHTML = `
+          ${item.img ? `<img class="si-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='linear-gradient(160deg,#1c1b16,#0a0a09)';this.removeAttribute('src');" />` : `<div class="si-img"></div>`}
+          <div>
+            <p class="si-name">${item.name}</p>
+            <p class="si-sub">Season One · 2026 · $${item.price}</p>
+            <button class="move-cart" data-i="${idx}" data-cursor-hover>Move to Cart</button>
+          </div>
+          <button class="si-x" data-i="${idx}" data-cursor-hover>&times;</button>`;
+        list.appendChild(row);
+      });
+
+      list.querySelectorAll('.si-x').forEach(b => b.addEventListener('click', () => {
+        const removed = saved.splice(parseInt(b.dataset.i), 1)[0];
+        lsSet(K.saved, saved);
+        document.querySelectorAll('.save-toggle').forEach(s => {
+          if (s.dataset.name === removed.name) s.classList.remove('saved');
+        });
+        renderSaved();
+      }));
+
+      list.querySelectorAll('.move-cart').forEach(b => b.addEventListener('click', () => {
+        const item = saved.splice(parseInt(b.dataset.i), 1)[0];
+        lsSet(K.saved, saved);
+        addToCart(item.name, item.price, item.img);
+        renderSaved(); switchTab('cart');
+      }));
+    }
+
+    /* ── Render: orders ───────────────────────────────────────── */
+    function renderOrders() {
+      const list = document.getElementById('ordersList');
+      const empty = document.getElementById('ordersEmpty');
+      list.innerHTML = '';
+
+      if (!orders.length) { empty.style.display = 'flex'; return; }
+      empty.style.display = 'none';
+
+      [...orders].reverse().forEach(o => {
+        const row = document.createElement('div');
+        row.className = 'order-row';
+        row.innerHTML = `
+          <p class="order-id">${o.id}</p>
+          <p class="order-name">${o.items.map(i => i.name).join(', ')}</p>
+          <div class="order-meta">
+            <p class="order-date">${o.date}</p>
+            <span class="order-status">${o.status}</span>
+          </div>
+          <p class="order-price">$${o.total}</p>`;
+        list.appendChild(row);
+      });
+    }
+
+    function addToCart(name, price, img) {
+      const ex = cart.find(i => i.name === name);
+      if (ex) ex.qty++;
+      else cart.push({ name, price, qty: 1, img: img || '' });
+      lsSet(K.cart, cart);
+      refreshBadges(); renderCart();
+    }
+
+    /* ── Add to cart button ───────────────────────────────────── */
+    document.getElementById('addCartBtn').addEventListener('click', e => {
+      const btn = e.currentTarget;
+      addToCart(btn.dataset.name, btn.dataset.price, btn.dataset.img);
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ &nbsp; Added';
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--bone)';
+      setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; }, 1600);
+    });
+
+    /* ── Save toggle ──────────────────────────────────────────── */
+    const saveBtn = document.getElementById('saveBtn');
+    if (saved.find(s => s.name === saveBtn.dataset.name)) saveBtn.classList.add('saved');
+
+    saveBtn.addEventListener('click', () => {
+      const name = saveBtn.dataset.name;
+      const ex = saved.find(s => s.name === name);
+      if (ex) {
+        saved = saved.filter(s => s.name !== name);
+        saveBtn.classList.remove('saved');
+      } else {
+        saved.push({ name, price: saveBtn.dataset.price, img: saveBtn.dataset.img });
+        saveBtn.classList.add('saved');
+      }
+      lsSet(K.saved, saved);
+      renderSaved();
+    });
+
+    /* ── Drawer ──────────────────────────────────────────────── */
+    const drawer = document.getElementById('drawer');
+    const drawerOv = document.getElementById('drawerOverlay');
+
+    window.openDrawer = function (tab) {
+      acctDD.classList.remove('on');
+      drawer.classList.add('on');
+      drawerOv.classList.add('on');
+      document.body.style.overflow = 'hidden';
+      switchTab(tab || 'orders');
+    };
+
+    function closeDrawer() {
+      drawer.classList.remove('on');
+      drawerOv.classList.remove('on');
+      document.body.style.overflow = '';
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.drawer-tab').forEach(t => t.classList.toggle('active', t.dataset.dt === name));
+      document.querySelectorAll('.drawer-panel').forEach(p => p.classList.toggle('active', p.id === 'dp-' + name));
+      if (name === 'cart') renderCart();
+      if (name === 'saved') renderSaved();
+      if (name === 'orders') renderOrders();
+    }
+
+    document.getElementById('drawerX').addEventListener('click', closeDrawer);
+    drawerOv.addEventListener('click', closeDrawer);
+    document.querySelectorAll('.drawer-tab').forEach(t =>
+      t.addEventListener('click', () => switchTab(t.dataset.dt)));
+    document.getElementById('cartOpen').addEventListener('click', () => openDrawer('cart'));
+
+    /* ── Checkout ─────────────────────────────────────────────── */
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (!cart.length) return;
+      const total = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+      orders.push({
+        id: 'GRL-' + Date.now().toString(36).toUpperCase(),
+        items: [...cart], total: total.toFixed(2),
+        date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+        status: 'Processing'
+      });
+      lsSet(K.orders, orders);
+      cart = []; lsSet(K.cart, cart);
+      refreshBadges(); renderCart(); switchTab('orders');
+    });
+
+    /* ═══ Account modal ══════════════════════════════════════════ */
+    const loginModal = document.getElementById('loginModal');
+    const loginOpen = document.getElementById('loginOpen');
+    const loginX = document.getElementById('loginX');
+    const avatar = document.getElementById('avatar');
+    const acctDD = document.getElementById('acctDD');
+    const ddName = document.getElementById('ddName');
+    const ddEmail = document.getElementById('ddEmail');
+    const signOutBtn = document.getElementById('signOut');
+
+    function openModal() { loginModal.classList.add('on'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { loginModal.classList.remove('on'); document.body.style.overflow = ''; }
+
+    loginOpen.addEventListener('click', openModal);
+    loginX.addEventListener('click', closeModal);
+    loginModal.addEventListener('click', e => { if (e.target === loginModal) closeModal(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeModal(); closeDrawer(); }
+    });
+
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.modal-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    function getInitials(name) {
+      return name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    }
+
+    function applySession(user) {
+      if (!user) return;
+      loginOpen.style.display = 'none';
+      avatar.classList.add('on');
+      avatar.textContent = getInitials(user.name || user.email);
+      ddName.textContent = user.name || 'Grael Member';
+      ddEmail.textContent = user.email;
+    }
+
+    function clearSession() {
+      localStorage.removeItem(K.user);
+      loginOpen.style.display = '';
+      avatar.classList.remove('on');
+      acctDD.classList.remove('on');
+    }
+
+    applySession(ls(K.user, null));
+    refreshBadges();
+
+    avatar.addEventListener('click', () => acctDD.classList.toggle('on'));
+    avatar.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') acctDD.classList.toggle('on');
+    });
+
+    document.addEventListener('click', e => {
+      if (!avatar.contains(e.target) && !acctDD.contains(e.target)) acctDD.classList.remove('on');
+    });
+
+    signOutBtn.addEventListener('click', clearSession);
+
+    document.getElementById('regBtn').addEventListener('click', () => {
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const pass = document.getElementById('regPassword').value;
+      const err = document.getElementById('regError');
+
+      if (!name) { err.textContent = 'Please enter your name.'; return; }
+      if (!email.includes('@')) { err.textContent = 'Please enter a valid email.'; return; }
+      if (pass.length < 6) { err.textContent = 'Password must be at least 6 characters.'; return; }
+
+      const accts = ls(K.accts, []);
+      if (accts.find(u => u.email === email)) { err.textContent = 'Account already exists.'; return; }
+
+      accts.push({ name, email, pass });
+      lsSet(K.accts, accts);
+      const u = { name, email };
+      lsSet(K.user, u);
+      applySession(u);
+      closeModal();
+      err.textContent = '';
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+      const err = document.getElementById('loginError');
+
+      if (!email || !pass) { err.textContent = 'Please fill in all fields.'; return; }
+
+      const accts = ls(K.accts, []);
+      const m = accts.find(u => u.email === email && u.pass === pass);
+      if (!m) { err.textContent = 'Incorrect email or password.'; return; }
+
+      const u = { name: m.name, email: m.email };
+      lsSet(K.user, u);
+      applySession(u);
+      closeModal();
+      err.textContent = '';
+    });
+
+    document.getElementById('loginPassword').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click();
+    });
+    document.getElementById('regPassword').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('regBtn').click();
+    });
+
+    /* ─── Newsletter ───────────────────────────────────────────── */
+    document.getElementById('newsForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = e.target.querySelector('input').value.trim();
+      if (!email.includes('@')) return;
+      e.target.style.display = 'none';
+      document.getElementById('newsSuccess').classList.add('on');
+    });
+
+  </script>
+</body>
+</html>
